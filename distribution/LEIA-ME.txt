@@ -1,0 +1,11 @@
+SOUZ SOFTCROP - PACOTE PARA REPASSE
+
+1. Com o Resolume fechado, instale SouzSoftCrop_v12_FFGL21.dll na pasta de plugins FFGL configurada.
+2. Abra Souz_SoftCrop_Pronto.avc no Resolume, ou importe o deck dessa composicao pelo painel Compositions.
+3. O clipe de efeito Souz SoftCrop ja leva o logo/SoftCrop incorporado na composicao. Coloque seus videos na camada abaixo.
+4. Salve sua composicao apos importar o deck.
+
+Apenas arrastar a DLL para um novo clipe vazio NAO aplica automaticamente a imagem ao clipe. A API FFGL fornece uma thumbnail de plugin, mas nao controla a thumbnail de cada clipe. Para o repasse com a imagem pronta, distribua este pacote completo e utilize o clipe/deck fornecido.
+
+O arquivo AVC foi preparado a partir da estrutura de uma composicao Resolume 7.23, sem videos ou outras midias de usuario. A thumbnail esta dentro do AVC e da DLL, sem depender de caminho local de PNG.
+Validado: XML, identidade SZC2, thumbnail LZF e incorporacao dos pixels. Abertura/visualizacao no Resolume ainda precisa ser conferida; nao foi validada nesta entrega.

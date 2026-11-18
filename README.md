@@ -21,6 +21,12 @@ A DLL nova tem nome de arquivo e ID próprios (`SZC2`) para distingui-la das ver
 
 Se o efeito novo não aparecer, confirme o diretório FFGL nas preferências de vídeo e reinicie o Resolume. A thumbnail do efeito usa a imagem Souz enviada pelo usuário, com SoftCrop abaixo; a imagem de um slot de clipe depende do comportamento do host. A marca não aparece sobre o vídeo processado.
 
+## Repasse com thumbnail pronta no clipe
+
+[Baixe o pacote de repasse](https://github.com/oSouz/SoftCrop/raw/refs/heads/main/Souz_SoftCrop_Repasse_v1.2.zip). Ele inclui a DLL e uma composição `Souz_SoftCrop_Pronto.avc` com o clipe de efeito e a imagem embutida. Instale a DLL e abra essa composição, ou importe seu deck em outra composição. Não depende do PNG no computador de origem.
+
+A DLL sozinha não define a thumbnail de um clipe novo: o FFGL oferece a thumbnail do plugin, mas a imagem do clipe é gerenciada pelo Resolume. O pacote resolve a distribuição de um clipe já configurado. O arquivo AVC foi verificado estruturalmente e sua thumbnail LZF foi validada; sua abertura no Resolume ainda precisa de teste. Leia `distribution/LEIA-ME.txt`.
+
 ## Controles
 
 | Índice | Controle | Função |
