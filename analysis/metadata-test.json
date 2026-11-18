@@ -40,5 +40,6 @@
       "default": 0.0
     }
   ],
+  "thumbnail": "160x120; all pixels match embedded image; PASS",
   "result": "PASS"
 }

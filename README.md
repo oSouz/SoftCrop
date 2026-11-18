@@ -1,11 +1,20 @@
-# Souz Toolkit — Souz Soft Crop 1.0
+# Souz Toolkit — Souz Soft Crop 1.1
 
-Efeito original de recorte retangular com suavização independente das quatro bordas, para Resolume/FFGL 2.1 Windows x64. Não contém código da DLL SoftCropper, não depende dela e não é produto da Haute Technique. Equivalência funcional proposta, não reprodução exata nem compatibilidade de presets.
+Efeito original de recorte retangular simétrico com suavização independente das quatro bordas, para Resolume/FFGL 2.1 Windows x64. Não contém código da DLL SoftCropper, não depende dela e não é produto da Haute Technique. Equivalência funcional proposta, não reprodução exata nem compatibilidade de presets.
+
+![Souz SoftCrop](assets/SoftCrop-thumbnail.png)
+
+## Novidades da versão 1.1
+
+- Os cortes secos são vinculados: mover Crop Left ou Crop Right aplica o mesmo valor aos dois lados; mover Crop Top ou Crop Bottom aplica o mesmo valor em cima e embaixo.
+- Os quatro controles Soft continuam independentes. O painel do host pode atualizar o valor visual do outro controle somente ao reler os parâmetros; o processamento já usa ambos vinculados.
+- Thumbnail FFGL 2.1 embutida, com o logo Souz fornecido pelo usuário e SoftCrop abaixo. A marca não é sobreposta ao vídeo. A exibição em um slot de clipe depende de como o Resolume usa a thumbnail do efeito.
+- Mantidos nome, ID e índices dos parâmetros. Composições antigas com cortes assimétricos passam a ser simétricas; ao carregar valores diferentes de um mesmo par, prevalece o último valor enviado pelo host.
 
 ## Downloads
 
 - [DLL pronta para Windows x64](dist/SouzSoftCrop_FFGL21.dll)
-- [Pacote completo com fonte e SDK](SouzToolkit_SoftCrop_FFGL21_v1.0.zip)
+- [Pacote completo com fonte e SDK](SouzToolkit_SoftCrop_FFGL21_v1.1.zip)
 - [Relatório da inspeção](RELATORIO.md)
 
 ## Arquivos
@@ -24,10 +33,10 @@ Todos variam de 0 a 1 e começam em 0. Uma entrada de vídeo; sem redimensionar 
 
 | Índice | Nome | Comportamento |
 |---|---|---|
-| 0 | Crop Left | Fração da largura removida à esquerda |
-| 1 | Crop Top | Fração da altura removida no topo |
-| 2 | Crop Right | Fração da largura removida à direita |
-| 3 | Crop Bottom | Fração da altura removida embaixo |
+| 0 | Crop Left | Fração removida em cada lado horizontal (vinculado a Crop Right) |
+| 1 | Crop Top | Fração removida no topo e embaixo (vinculado a Crop Bottom) |
+| 2 | Crop Right | Mesmo par horizontal de Crop Left |
+| 3 | Crop Bottom | Mesmo par vertical de Crop Top |
 | 4 | Soft Left | Largura da transição, como fração da largura da imagem |
 | 5 | Soft Top | Altura da transição, como fração da altura da imagem |
 | 6 | Soft Right | Largura da transição à direita |
@@ -36,7 +45,7 @@ Todos variam de 0 a 1 e começam em 0. Uma entrada de vídeo; sem redimensionar 
 
 A suavização usa uma curva cúbica smoothstep e avança da linha de recorte para dentro da área visível. Soft=0 produz borda dura. Recortes opostos que somam 1 ou mais tornam a imagem inteiramente transparente. Os canais RGBA são multiplicados pela máscara para preservar alfa pré-multiplicado. Sem recorte nem suavização, a saída é a entrada. Top é a borda superior (UV y=1). Não há antialias adicional na borda dura.
 
-Exemplo: Crop Left=0,20 e Soft Left=0,10 removem os 20% iniciais e fazem a transição entre 20% e 30% da largura.
+Exemplo: Crop Right=0,20 remove 20% em cada lado horizontal. Soft Left=0,10 acrescenta uma transição apenas à esquerda, entre 20% e 30% da largura. Corte de 0,50 ou mais em um par fecha a imagem por completo.
 
 ## Compilar
 Requisitos: Windows x64, Visual Studio 2022 ou Build Tools com **Desenvolvimento para desktop com C++**, Windows SDK e CMake 3.20+. Python 3 de 64 bits é opcional para o teste.
@@ -46,6 +55,8 @@ Na pasta do projeto, em PowerShell:
 ```powershell
 cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 cmake --build build --config Release --parallel 4
+ctest --test-dir build -C Release --output-on-failure
+ctest --test-dir build -C Release --output-on-failure
 python tests/check_metadata.py build/bin/Release/SouzSoftCrop_FFGL21.dll
 ```
 
@@ -59,7 +70,11 @@ git clone --branch v2.1 --depth 1 https://github.com/resolume/ffgl.git vendor/ff
 
 Não use master como substituição silenciosa: é outra versão do SDK. Também pode selecionar um SDK v2.1 local com `-DFFGL_SDK="C:/caminho/ffgl"` na configuração CMake.
 
+Para recriar a thumbnail a partir do logo, execute `powershell -ExecutionPolicy Bypass -File tools/make_thumbnail.ps1` no Windows e recompile. O cabeçalho já gerado está incluído; não precisa executar isso para compilar normalmente.
+
 ## Instalar e experimentar no Resolume
+Feche o Resolume antes de substituir a DLL anterior. Evite manter duas versões do plugin nos diretórios de busca. Depois de reabrir, faça nova varredura se a thumbnail antiga continuar em cache.
+
 1. Copie a DLL de `dist` para uma pasta de plugins própria do acervo Souz Toolkit.
 2. Nas preferências de vídeo do Resolume, adicione essa pasta aos diretórios de plugins FFGL; faça nova varredura ou reinicie o programa conforme sua versão.
 3. Procure **Souz Soft Crop** na lista de efeitos e aplique a um clipe com vídeo.
@@ -69,6 +84,8 @@ O SDK v2.1 documenta suporte a suas funcionalidades a partir do Resolume 7.0.3. 
 
 ## Validação desta entrega
 - Compilação Release com MSVC 19.44, Visual Studio 2022, Windows SDK 10.0.26100.
+- Cortes vinculados testados em C++ nos dois sentidos, incluindo retorno a zero e suavizações independentes.
+- Thumbnail consultada pela API FFGL, com conferência de todos os pixels.
 - DLL nova carregada por Python x64: API=2.1, ID=SZC1, nome e nove parâmetros/defaults confirmados; inicialização/desinicialização da API aprovadas.
 - Não foram executados InitGL, compilação do shader em GPU ou comparação visual no host. O teste de metadados não certifica renderização. Esta entrega é uma versão inicial compilada para validação no Resolume.
 

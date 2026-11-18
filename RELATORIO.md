@@ -29,9 +29,9 @@ Há evidência forte de um efeito de recorte por quatro lados, com suavização 
 Não foram confirmados por chamadas à API: versão declarada FFGL, ID do plugin, quantidade/ordem efetiva dos parâmetros, tipos, intervalos, valores padrão ou opções de Style. O sufixo FFGL21 é compatível com a intenção de FFGL 2.1, mas o nome do arquivo não prova a versão da API. `Multiply` pode ser uma opção ou rótulo; não permite inferir o conjunto de modos nem a fórmula usada. Nenhuma equivalência pixel a pixel é reivindicada.
 
 ## Implementação original proposta
-Souz Soft Crop usa uma entrada e uma máscara retangular calculada no shader. Cada borda tem corte e faixa interna de suavização; as quatro máscaras podem ser combinadas por produto ou mínimo e interpoladas pelo controle Corner Blend. A operação atua nos quatro canais e respeita o tamanho útil da textura FFGL.
+Souz Soft Crop usa uma entrada e uma máscara retangular calculada no shader. Os cortes secos são simétricos em pares horizontal e vertical, com faixa interna de suavização independente por borda; as quatro máscaras podem ser combinadas por produto ou mínimo e interpoladas pelo controle Corner Blend. A operação atua nos quatro canais e respeita o tamanho útil da textura FFGL.
 
-Nome exibido: Souz Soft Crop. ID: SZC1. API declarada e consultada: 2.1. Versão do plugin: 1.0. Não há compatibilidade de identidade/presets com o binário proprietário.
+Nome exibido: Souz Soft Crop. ID: SZC1. API declarada e consultada: 2.1. Versão do plugin: 1.1. Não há compatibilidade de identidade/presets com o binário proprietário.
 
 ## Fontes públicas consultadas
 - SDK oficial, versão fixada: https://github.com/resolume/ffgl/tree/v2.1

@@ -2,6 +2,8 @@
 #include <FFGLSDK.h>
 #include <algorithm>
 #include <cmath>
+#include "SouzThumbnail.h"
+static CFFGLThumbnailInfo souzThumbnail(160,120,souzThumbnailPixels);
 
 class SouzSoftCrop final : public CFFGLPlugin {
 public:
@@ -13,7 +15,11 @@ public:
     }
     FFResult SetFloatParameter(unsigned i,float v) override {
         if(i>=9 || !std::isfinite(v)) return FF_FAIL;
-        values[i]=std::clamp(v,0.0f,1.0f); return FF_SUCCESS;
+        values[i]=std::clamp(v,0.0f,1.0f);
+        // The dry crop controls form symmetric horizontal and vertical pairs.
+        // Feather values deliberately remain independent.
+        if(i<4) values[(i+2)%4]=values[i];
+        return FF_SUCCESS;
     }
     float GetFloatParameter(unsigned i) override { return i<9 ? values[i] : 0.0f; }
     FFResult InitGL(const FFGLViewportStruct* vp) override;
@@ -25,7 +31,7 @@ private:
     ffglex::FFGLScreenQuad quad;
 };
 static CFFGLPluginInfo info(PluginFactory<SouzSoftCrop>,"SZC1","Souz Soft Crop",
-  2,1,1,0,FF_EFFECT,"Independent edge crop and inward feathering",
+  2,1,1,1,FF_EFFECT,"Linked symmetric crop and independent inward feathering",
   "Souz Toolkit - original implementation");
 static const char* vertex = R"GLSL(#version 410 core
 layout(location=0) in vec4 vPosition;
