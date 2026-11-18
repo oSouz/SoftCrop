@@ -6,20 +6,20 @@ Plugin original para Resolume, Windows x64 e FFGL 2.1. Recorte simétrico com su
 
 ## Baixar a versão atual
 
-- [DLL v1.4 — download direto](https://github.com/oSouz/SoftCrop/raw/refs/heads/main/dist/SouzSoftCrop_v14_FFGL21.dll)
+- [DLL v1.4 — download direto](https://github.com/oSouz/SoftCrop/raw/refs/heads/main/dist/SouzSoftCrop_FFGL21.dll)
 - [Pacote completo v1.4](https://github.com/oSouz/SoftCrop/raw/refs/heads/main/SouzToolkit_SoftCrop_FFGL21_v1.4.zip)
 
 ## Instalar esta atualização
 
 1. Feche o Resolume.
-2. Copie `dist/SouzSoftCrop_v14_FFGL21.dll` para uma pasta que esteja configurada nos diretórios de plugins FFGL do Resolume.
+2. Copie `dist/SouzSoftCrop_FFGL21.dll` para uma pasta que esteja configurada nos diretórios de plugins FFGL do Resolume.
 3. Abra o Resolume e procure o efeito **Souz SoftCrop 14**. Esse é o nome da nova versão. O efeito antigo **Souz Soft Crop** pode continuar em composições anteriores.
 4. Retire o efeito antigo do clipe e aplique **Souz SoftCrop 14**. Substituir um arquivo não troca automaticamente uma instância de efeito numa composição.
 5. Confirme os dois controles **Crop Horizontal** e **Crop Vertical** e a thumbnail Souz/SoftCrop.
 
 A versão 1.4 substitui os quatro controles Soft por Soft Horizontal e Soft Vertical.
 
-A DLL nova tem nome de arquivo e ID próprios (`SZC4`) para distingui-la das versões anteriores (`SZC1`). Os presets/instâncias antigos não migram automaticamente. Não instale as duas DLLs de `dist` juntas: o nome sem v14 é apenas um alias com os mesmos bytes para manter o link antigo atualizado. Use a DLL com v14.
+A DLL nova tem nome de arquivo e ID próprios (`SZC4`) para distingui-la das versões anteriores (`SZC1`). Os presets/instâncias antigos não migram automaticamente. O nome de arquivo é fixo: `SouzSoftCrop_FFGL21.dll`. Substitua esse arquivo nas atualizações; nomes antigos com v12/v13/v14 ficam apenas como histórico no repositório.
 
 Se o efeito novo não aparecer, confirme o diretório FFGL nas preferências de vídeo e reinicie o Resolume. A thumbnail do efeito usa a imagem Souz enviada pelo usuário, com SoftCrop abaixo; a imagem de um slot de clipe depende do comportamento do host. A marca não aparece sobre o vídeo processado.
 
@@ -53,10 +53,10 @@ Windows x64, Visual Studio 2022/Build Tools com Desenvolvimento para desktop com
 cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 cmake --build build --config Release --parallel 4
 ctest --test-dir build -C Release --output-on-failure
-python tests/check_metadata.py build/bin/Release/SouzSoftCrop_v14_FFGL21.dll
+python tests/check_metadata.py build/bin/Release/SouzSoftCrop_FFGL21.dll
 ```
 
-Saída: `build/bin/Release/SouzSoftCrop_v14_FFGL21.dll`.
+Saída: `build/bin/Release/SouzSoftCrop_FFGL21.dll`.
 
 O SDK público incluído está fixado em [resolume/ffgl v2.1](https://github.com/resolume/ffgl/tree/v2.1), commit `6697342f153cba9df9fd089a56d29ca87712fe30`. Pode usar outro checkout dessa versão com `-DFFGL_SDK="C:/caminho/ffgl"`. Para obter o SDK quando não estiver incluído:
 
