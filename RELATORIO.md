@@ -31,7 +31,7 @@ Não foram confirmados por chamadas à API: versão declarada FFGL, ID do plugin
 ## Implementação original proposta
 Souz Soft Crop usa uma entrada e uma máscara retangular calculada no shader. Os cortes secos são simétricos em pares horizontal e vertical, com faixa interna de suavização independente por borda; as quatro máscaras podem ser combinadas por produto ou mínimo e interpoladas pelo controle Corner Blend. A operação atua nos quatro canais e respeita o tamanho útil da textura FFGL.
 
-Nome exibido: Souz Soft Crop. ID: SZC1. API declarada e consultada: 2.1. Versão do plugin: 1.1. Não há compatibilidade de identidade/presets com o binário proprietário.
+Nome exibido na versão atual: Souz SoftCrop 12. ID: SZC2. API declarada e consultada: 2.1. Versão do plugin: 1.2. São sete parâmetros: dois cortes por eixo, quatro suavizações e Corner Blend. A identidade foi alterada para distinguir esta versão das instâncias anteriores. Não há compatibilidade de presets com o binário proprietário nem migração automática de instâncias Souz antigas.
 
 ## Fontes públicas consultadas
 - SDK oficial, versão fixada: https://github.com/resolume/ffgl/tree/v2.1

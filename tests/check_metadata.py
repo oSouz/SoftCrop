@@ -6,11 +6,11 @@ class Info(c.Structure):
 dll=c.WinDLL(str(Path(sys.argv[1]).resolve()))
 f=dll.plugMain; f.argtypes=[c.c_uint32,c.c_uint64,c.c_void_p]; f.restype=c.c_uint64
 info=c.cast(f(0,0,None),c.POINTER(Info)).contents
-assert (info.major,info.minor,info.id)==(2,1,b'SZC1')
+assert (info.major,info.minor,info.id)==(2,1,b'SZC2')
 assert f(34,0,None)==0
 try:
- assert f(4,0,None)==9
- expected=['Crop Left','Crop Top','Crop Right','Crop Bottom','Soft Left','Soft Top','Soft Right','Soft Bottom','Corner Blend']
+ assert f(4,0,None)==7
+ expected=['Crop Horizontal','Crop Vertical','Soft Left','Soft Top','Soft Right','Soft Bottom','Corner Blend']
  params=[]
  for i,name in enumerate(expected):
   actual=c.string_at(f(5,i,None),16).split(b'\0')[0].decode()
@@ -31,6 +31,6 @@ try:
  expected_pixels=[int(word,16) for word in re.findall(r'0x([0-9A-F]{8})u',header)]
  assert list(words)==expected_pixels
  assert max(pixels)>min(pixels)
- print(json.dumps({'api':'2.1','id':'SZC1','name':info.name.decode(),'parameters':params,'thumbnail':'160x120; all pixels match embedded image; PASS','result':'PASS'},indent=2))
+ print(json.dumps({'api':'2.1','id':'SZC2','name':info.name.decode(),'parameters':params,'thumbnail':'160x120; all pixels match embedded image; PASS','result':'PASS'},indent=2))
 finally:
  assert f(2,0,None)==0

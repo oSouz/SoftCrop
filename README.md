@@ -1,97 +1,71 @@
-# Souz Toolkit — Souz Soft Crop 1.1
-
-Efeito original de recorte retangular simétrico com suavização independente das quatro bordas, para Resolume/FFGL 2.1 Windows x64. Não contém código da DLL SoftCropper, não depende dela e não é produto da Haute Technique. Equivalência funcional proposta, não reprodução exata nem compatibilidade de presets.
+# Souz Toolkit — SoftCrop 1.2
 
 ![Souz SoftCrop](assets/SoftCrop-thumbnail.png)
 
-## Novidades da versão 1.1
+Plugin original para Resolume, Windows x64 e FFGL 2.1. Recorte simétrico com suavização independente das quatro bordas. Código próprio; não contém a DLL proprietária SoftCropper.
 
-- Os cortes secos são vinculados: mover Crop Left ou Crop Right aplica o mesmo valor aos dois lados; mover Crop Top ou Crop Bottom aplica o mesmo valor em cima e embaixo.
-- Os quatro controles Soft continuam independentes. O painel do host pode atualizar o valor visual do outro controle somente ao reler os parâmetros; o processamento já usa ambos vinculados.
-- Thumbnail FFGL 2.1 embutida, com o logo Souz fornecido pelo usuário e SoftCrop abaixo. A marca não é sobreposta ao vídeo. A exibição em um slot de clipe depende de como o Resolume usa a thumbnail do efeito.
-- Mantidos nome, ID e índices dos parâmetros. Composições antigas com cortes assimétricos passam a ser simétricas; ao carregar valores diferentes de um mesmo par, prevalece o último valor enviado pelo host.
+## Baixar a versão atual
 
-## Downloads
+- [DLL v1.2 — download direto](https://github.com/oSouz/SoftCrop/raw/refs/heads/main/dist/SouzSoftCrop_v12_FFGL21.dll)
+- [Pacote completo v1.2](https://github.com/oSouz/SoftCrop/raw/refs/heads/main/SouzToolkit_SoftCrop_FFGL21_v1.2.zip)
 
-- [DLL pronta para Windows x64](dist/SouzSoftCrop_FFGL21.dll)
-- [Pacote completo com fonte e SDK](SouzToolkit_SoftCrop_FFGL21_v1.1.zip)
-- [Relatório da inspeção](RELATORIO.md)
+## Instalar esta atualização
 
-## Arquivos
-- `dist/SouzSoftCrop_FFGL21.dll`: build Release x64.
-- `src/SouzSoftCrop.cpp`: implementação original C++ e GLSL.
-- `CMakeLists.txt`: compilação com SDK público oficial.
-- `RELATORIO.md`: inspeção do arquivo de referência e limites das conclusões.
-- `analysis/original-pe.json`: evidências estáticas selecionadas.
-- `analysis/metadata-test.json`: teste do plugin novo.
-- `tools/inspect_pe.py`: inspeção estática reproduzível, sem executar a DLL.
-- `tests/check_metadata.py`: consulta da API pública da DLL nova.
-- `vendor/ffgl`: SDK oficial v2.1 com avisos de copyright preservados.
+1. Feche o Resolume.
+2. Copie `dist/SouzSoftCrop_v12_FFGL21.dll` para uma pasta que esteja configurada nos diretórios de plugins FFGL do Resolume.
+3. Abra o Resolume e procure o efeito **Souz SoftCrop 12**. Esse é o nome da nova versão. O efeito antigo **Souz Soft Crop** pode continuar em composições anteriores.
+4. Retire o efeito antigo do clipe e aplique **Souz SoftCrop 12**. Substituir um arquivo não troca automaticamente uma instância de efeito numa composição.
+5. Confirme os dois controles **Crop Horizontal** e **Crop Vertical** e a thumbnail Souz/SoftCrop.
 
-## Parâmetros da implementação Souz
-Todos variam de 0 a 1 e começam em 0. Uma entrada de vídeo; sem redimensionar ou deslocar o conteúdo.
+A DLL nova tem nome de arquivo e ID próprios (`SZC2`) para distingui-la das versões anteriores (`SZC1`). Os presets/instâncias antigos não migram automaticamente. Não instale as duas DLLs de `dist` juntas: o nome sem v12 é apenas um alias com os mesmos bytes para manter o link antigo atualizado. Use a DLL com v12.
 
-| Índice | Nome | Comportamento |
+Se o efeito novo não aparecer, confirme o diretório FFGL nas preferências de vídeo e reinicie o Resolume. A thumbnail do efeito usa a imagem Souz enviada pelo usuário, com SoftCrop abaixo; a imagem de um slot de clipe depende do comportamento do host. A marca não aparece sobre o vídeo processado.
+
+## Controles
+
+| Índice | Controle | Função |
 |---|---|---|
-| 0 | Crop Left | Fração removida em cada lado horizontal (vinculado a Crop Right) |
-| 1 | Crop Top | Fração removida no topo e embaixo (vinculado a Crop Bottom) |
-| 2 | Crop Right | Mesmo par horizontal de Crop Left |
-| 3 | Crop Bottom | Mesmo par vertical de Crop Top |
-| 4 | Soft Left | Largura da transição, como fração da largura da imagem |
-| 5 | Soft Top | Altura da transição, como fração da altura da imagem |
-| 6 | Soft Right | Largura da transição à direita |
-| 7 | Soft Bottom | Altura da transição embaixo |
-| 8 | Corner Blend | 0: produto das quatro máscaras; 1: menor valor; intermediários interpolam |
+| 0 | Crop Horizontal | Corta esquerda e direita igualmente |
+| 1 | Crop Vertical | Corta cima e baixo igualmente |
+| 2 | Soft Left | Suavização independente à esquerda |
+| 3 | Soft Top | Suavização independente no topo |
+| 4 | Soft Right | Suavização independente à direita |
+| 5 | Soft Bottom | Suavização independente embaixo |
+| 6 | Corner Blend | 0: produto das máscaras; 1: mínimo; valores intermediários interpolam |
 
-A suavização usa uma curva cúbica smoothstep e avança da linha de recorte para dentro da área visível. Soft=0 produz borda dura. Recortes opostos que somam 1 ou mais tornam a imagem inteiramente transparente. Os canais RGBA são multiplicados pela máscara para preservar alfa pré-multiplicado. Sem recorte nem suavização, a saída é a entrada. Top é a borda superior (UV y=1). Não há antialias adicional na borda dura.
+Todos começam em zero e variam de 0 a 1. Os cortes são frações removidas de **cada** lado: Horizontal=0,20 remove 20% à esquerda e 20% à direita, restando 60% no centro. Com 0,50 ou mais em qualquer eixo, a imagem desaparece. Esta versão usa dois controles para evitar que o host envie valores concorrentes a controles vinculados.
 
-Exemplo: Crop Right=0,20 remove 20% em cada lado horizontal. Soft Left=0,10 acrescenta uma transição apenas à esquerda, entre 20% e 30% da largura. Corte de 0,50 ou mais em um par fecha a imagem por completo.
+Soft=0 produz corte seco. A suavização usa smoothstep e avança da borda do corte para dentro da região visível. Suas distâncias são frações do eixo correspondente. O shader preserva RGBA pré-multiplicado e o tamanho útil da textura FFGL; não redimensiona o conteúdo.
 
 ## Compilar
-Requisitos: Windows x64, Visual Studio 2022 ou Build Tools com **Desenvolvimento para desktop com C++**, Windows SDK e CMake 3.20+. Python 3 de 64 bits é opcional para o teste.
 
-Na pasta do projeto, em PowerShell:
+Windows x64, Visual Studio 2022/Build Tools com Desenvolvimento para desktop com C++, Windows SDK e CMake 3.20+. Python 3 x64 é opcional para consultar metadados e thumbnail.
 
 ```powershell
 cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 cmake --build build --config Release --parallel 4
 ctest --test-dir build -C Release --output-on-failure
-ctest --test-dir build -C Release --output-on-failure
-python tests/check_metadata.py build/bin/Release/SouzSoftCrop_FFGL21.dll
+python tests/check_metadata.py build/bin/Release/SouzSoftCrop_v12_FFGL21.dll
 ```
 
-Resultado: `build/bin/Release/SouzSoftCrop_FFGL21.dll`.
+Saída: `build/bin/Release/SouzSoftCrop_v12_FFGL21.dll`.
 
-O SDK incluído corresponde a https://github.com/resolume/ffgl/tree/v2.1, commit `6697342f153cba9df9fd089a56d29ca87712fe30`. Para um checkout sem vendor, obtenha-o com:
+O SDK público incluído está fixado em [resolume/ffgl v2.1](https://github.com/resolume/ffgl/tree/v2.1), commit `6697342f153cba9df9fd089a56d29ca87712fe30`. Pode usar outro checkout dessa versão com `-DFFGL_SDK="C:/caminho/ffgl"`. Para obter o SDK quando não estiver incluído:
 
 ```powershell
 git clone --branch v2.1 --depth 1 https://github.com/resolume/ffgl.git vendor/ffgl
 ```
 
-Não use master como substituição silenciosa: é outra versão do SDK. Também pode selecionar um SDK v2.1 local com `-DFFGL_SDK="C:/caminho/ffgl"` na configuração CMake.
+A thumbnail já está embutida em `src/SouzThumbnail.h`. Para recriá-la no Windows, execute `powershell -ExecutionPolicy Bypass -File tools/make_thumbnail.ps1` e recompile. Os arquivos PNG estão em `assets`.
 
-Para recriar a thumbnail a partir do logo, execute `powershell -ExecutionPolicy Bypass -File tools/make_thumbnail.ps1` no Windows e recompile. O cabeçalho já gerado está incluído; não precisa executar isso para compilar normalmente.
+## Validação e limites
 
-## Instalar e experimentar no Resolume
-Feche o Resolume antes de substituir a DLL anterior. Evite manter duas versões do plugin nos diretórios de busca. Depois de reabrir, faça nova varredura se a thumbnail antiga continuar em cache.
+Build Release MSVC 19.44, SDK Windows 10.0.26100. Testes aprovados de parâmetros, retorno a zero, eixos independentes, suavizações independentes, limites e entrada inválida. API consultada: FFGL 2.1, nome Souz SoftCrop 12, ID SZC2 e sete parâmetros. Thumbnail consultada pela API e comparada pixel a pixel com o cabeçalho embutido.
 
-1. Copie a DLL de `dist` para uma pasta de plugins própria do acervo Souz Toolkit.
-2. Nas preferências de vídeo do Resolume, adicione essa pasta aos diretórios de plugins FFGL; faça nova varredura ou reinicie o programa conforme sua versão.
-3. Procure **Souz Soft Crop** na lista de efeitos e aplique a um clipe com vídeo.
-4. Teste cada recorte isoladamente e depois suas suavizações. Use fundo quadriculado ou outra camada atrás para verificar transparência.
+Não foi executada uma sessão de Resolume nem validada a renderização em GPU nesta entrega. A inspeção do plugin proprietário foi estática; não há promessa de igualdade pixel a pixel ou de compatibilidade com presets dele. O SDK v2.1 documenta suporte às suas funcionalidades a partir do Resolume 7.0.3. O shader exige OpenGL/GLSL 4.1 e a DLL requer runtime Visual C++ x64.
 
-O SDK v2.1 documenta suporte a suas funcionalidades a partir do Resolume 7.0.3. O shader exige OpenGL/GLSL 4.1. Build MSVC usa o runtime Visual C++ x64; caso o carregamento falhe por runtime ausente, instale o redistribuível oficial correspondente. Não foi instalado automaticamente nem testado em uma sessão do Resolume.
+## Arquivos e autoria
 
-## Validação desta entrega
-- Compilação Release com MSVC 19.44, Visual Studio 2022, Windows SDK 10.0.26100.
-- Cortes vinculados testados em C++ nos dois sentidos, incluindo retorno a zero e suavizações independentes.
-- Thumbnail consultada pela API FFGL, com conferência de todos os pixels.
-- DLL nova carregada por Python x64: API=2.1, ID=SZC1, nome e nove parâmetros/defaults confirmados; inicialização/desinicialização da API aprovadas.
-- Não foram executados InitGL, compilação do shader em GPU ou comparação visual no host. O teste de metadados não certifica renderização. Esta entrega é uma versão inicial compilada para validação no Resolume.
+`src`: efeito C++/GLSL e thumbnail; `tests`: verificações; `tools`: inspeção PE e geração da arte; `analysis`: evidências; `RELATORIO.md`: análise do original; `vendor/ffgl`: SDK oficial e seus avisos de copyright. Versões ZIP antigas ficam disponíveis como histórico.
 
-Checklist visual: bypass em valores zero; cada borda na direção correta; suavização sem halo em fundo colorido; recortes cruzados transparentes; resolução/relação de aspecto diferentes; dois efeitos simultâneos sem interferência; salvar/reabrir composição. A largura da suavização é relativa a cada eixo, não uma distância uniforme em pixels.
-
-## Autoria e dependências
-O código do efeito foi escrito do zero a partir de operações matemáticas comuns e da API pública FFGL. Nenhum shader, trecho descompilado, recurso ou identidade binária do plugin de referência foi reutilizado. Os nomes descritivos dos oito controles orientaram a proposta. `Corner Blend` é uma decisão de projeto Souz, não uma afirmação sobre `Style`.
-
-Veja `LICENSE` para o código novo e `THIRD_PARTY_NOTICES.md` para o SDK. O ID SZC1 foi escolhido para esta entrega; não há garantia de registro global, então mantenha-o único no acervo. A DLL proprietária não é distribuída neste pacote.
+O código do efeito foi escrito do zero a partir de matemática comum e da API pública FFGL. Nenhum shader ou código descompilado do plugin de referência foi reutilizado. Consulte `LICENSE` e `THIRD_PARTY_NOTICES.md`. O logo fornecido pelo usuário permanece sujeito aos direitos de seu titular.

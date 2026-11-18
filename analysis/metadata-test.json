@@ -1,22 +1,14 @@
 {
   "api": "2.1",
-  "id": "SZC1",
-  "name": "Souz Soft Crop",
+  "id": "SZC2",
+  "name": "Souz SoftCrop 12",
   "parameters": [
     {
-      "name": "Crop Left",
+      "name": "Crop Horizontal",
       "default": 0.0
     },
     {
-      "name": "Crop Top",
-      "default": 0.0
-    },
-    {
-      "name": "Crop Right",
-      "default": 0.0
-    },
-    {
-      "name": "Crop Bottom",
+      "name": "Crop Vertical",
       "default": 0.0
     },
     {

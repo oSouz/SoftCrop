@@ -9,29 +9,26 @@ class SouzSoftCrop final : public CFFGLPlugin {
 public:
     SouzSoftCrop() {
         SetMinInputs(1); SetMaxInputs(1);
-        const char* names[] = {"Crop Left", "Crop Top", "Crop Right", "Crop Bottom",
+        const char* names[] = {"Crop Horizontal", "Crop Vertical",
           "Soft Left", "Soft Top", "Soft Right", "Soft Bottom", "Corner Blend"};
-        for(unsigned i=0;i<9;++i) SetParamInfo(i,names[i],FF_TYPE_STANDARD,0.0f);
+        for(unsigned i=0;i<7;++i) SetParamInfo(i,names[i],FF_TYPE_STANDARD,0.0f);
     }
     FFResult SetFloatParameter(unsigned i,float v) override {
-        if(i>=9 || !std::isfinite(v)) return FF_FAIL;
+        if(i>=7 || !std::isfinite(v)) return FF_FAIL;
         values[i]=std::clamp(v,0.0f,1.0f);
-        // The dry crop controls form symmetric horizontal and vertical pairs.
-        // Feather values deliberately remain independent.
-        if(i<4) values[(i+2)%4]=values[i];
         return FF_SUCCESS;
     }
-    float GetFloatParameter(unsigned i) override { return i<9 ? values[i] : 0.0f; }
+    float GetFloatParameter(unsigned i) override { return i<7 ? values[i] : 0.0f; }
     FFResult InitGL(const FFGLViewportStruct* vp) override;
     FFResult DeInitGL() override { quad.Release(); shader.FreeGLResources(); return FF_SUCCESS; }
     FFResult ProcessOpenGL(ProcessOpenGLStruct* p) override;
 private:
-    float values[9]{};
+    float values[7]{};
     ffglex::FFGLShader shader;
     ffglex::FFGLScreenQuad quad;
 };
-static CFFGLPluginInfo info(PluginFactory<SouzSoftCrop>,"SZC1","Souz Soft Crop",
-  2,1,1,1,FF_EFFECT,"Linked symmetric crop and independent inward feathering",
+static CFFGLPluginInfo info(PluginFactory<SouzSoftCrop>,"SZC2","Souz SoftCrop 12",
+  2,1,1,2,FF_EFFECT,"Linked symmetric crop and independent inward feathering",
   "Souz Toolkit - original implementation");
 static const char* vertex = R"GLSL(#version 410 core
 layout(location=0) in vec4 vPosition;
@@ -77,7 +74,7 @@ FFResult SouzSoftCrop::ProcessOpenGL(ProcessOpenGLStruct* p){
     Scoped2DTextureBinding texture(p->inputTextures[0]->Handle);
     const auto max=GetMaxGLTexCoords(*p->inputTextures[0]);
     shader.Set("image",0); shader.Set("maxUV",max.s,max.t);
-    shader.Set("crop",values[0],values[1],values[2],values[3]);
-    shader.Set("feather",values[4],values[5],values[6],values[7]);
-    shader.Set("cornerBlend",values[8]); quad.Draw(); return FF_SUCCESS;
+    shader.Set("crop",values[0],values[1],values[0],values[1]);
+    shader.Set("feather",values[2],values[3],values[4],values[5]);
+    shader.Set("cornerBlend",values[6]); quad.Draw(); return FF_SUCCESS;
 }
