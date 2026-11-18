@@ -1,0 +1,44 @@
+{
+  "api": "2.1",
+  "id": "SZC1",
+  "name": "Souz Soft Crop",
+  "parameters": [
+    {
+      "name": "Crop Left",
+      "default": 0.0
+    },
+    {
+      "name": "Crop Top",
+      "default": 0.0
+    },
+    {
+      "name": "Crop Right",
+      "default": 0.0
+    },
+    {
+      "name": "Crop Bottom",
+      "default": 0.0
+    },
+    {
+      "name": "Soft Left",
+      "default": 0.0
+    },
+    {
+      "name": "Soft Top",
+      "default": 0.0
+    },
+    {
+      "name": "Soft Right",
+      "default": 0.0
+    },
+    {
+      "name": "Soft Bottom",
+      "default": 0.0
+    },
+    {
+      "name": "Corner Blend",
+      "default": 0.0
+    }
+  ],
+  "result": "PASS"
+}

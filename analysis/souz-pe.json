@@ -1,0 +1,35 @@
+{
+  "file": "SouzSoftCrop_FFGL21.dll",
+  "size": 410624,
+  "sha256": "97bf094d3ad5549348a13cf52ff72b87b597dcb8bc174f168965a4a61bd1491a",
+  "machine": "0x8664",
+  "optional_header": "0x20b",
+  "timestamp_raw": 1794972686,
+  "certificate_table_present": false,
+  "exports": [
+    "plugMain"
+  ],
+  "imports": [
+    "OPENGL32.dll",
+    "KERNEL32.dll",
+    "MSVCP140.dll",
+    "VCRUNTIME140.dll",
+    "VCRUNTIME140_1.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-math-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-convert-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll"
+  ],
+  "selected_exact_strings": [
+    "Crop Left",
+    "Crop Top",
+    "Crop Right",
+    "Crop Bottom",
+    "Soft Left",
+    "Soft Top",
+    "Soft Right",
+    "Soft Bottom"
+  ]
+}

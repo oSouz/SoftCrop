@@ -1,0 +1,51 @@
+{
+  "file": "SoftCropper_FFGL21.dll",
+  "size": 601088,
+  "sha256": "1bcb84847b36423b277722408452a001826c809331f87c007ff7d4f5cbd79afc",
+  "machine": "0x8664",
+  "optional_header": "0x20b",
+  "timestamp_raw": 1583236084,
+  "certificate_table_present": false,
+  "exports": [
+    "plugMain"
+  ],
+  "imports": [
+    "OPENGL32.dll",
+    "KERNEL32.dll",
+    "SHELL32.dll",
+    "ADVAPI32.dll",
+    "MSVCP140.dll",
+    "WINMM.dll",
+    "VCRUNTIME140.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll",
+    "api-ms-win-crt-convert-l1-1-0.dll",
+    "api-ms-win-crt-math-l1-1-0.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "api-ms-win-crt-locale-l1-1-0.dll"
+  ],
+  "selected_exact_strings": [
+    "SoftCropper",
+    "Haute Technique",
+    "cropL",
+    "cropT",
+    "cropR",
+    "cropB",
+    "sizeL",
+    "sizeT",
+    "sizeR",
+    "sizeB",
+    "Crop Left",
+    "Crop Top",
+    "Crop Right",
+    "Crop Bottom",
+    "Soft Left",
+    "Soft Top",
+    "Soft Right",
+    "Soft Bottom",
+    "Style",
+    "Multiply",
+    "style"
+  ]
+}
