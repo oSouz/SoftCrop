@@ -27,7 +27,7 @@ private:
     ffglex::FFGLShader shader;
     ffglex::FFGLScreenQuad quad;
 };
-static CFFGLPluginInfo info(PluginFactory<SouzSoftCrop>,"SZC4","Souz SoftCrop 14",
+static CFFGLPluginInfo info(PluginFactory<SouzSoftCrop>,"SZC4","SOUZ-SOFTCROP",
   2,1,1,4,FF_EFFECT,"Symmetric horizontal and vertical crop and feathering",
   "Souz Toolkit - original implementation");
 static const char* vertex = R"GLSL(#version 410 core

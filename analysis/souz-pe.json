@@ -1,10 +1,10 @@
 {
-  "file": "SouzSoftCrop_v14_FFGL21.dll",
-  "size": 4327424,
-  "sha256": "f3adef6ecc339944e3e6cdb891be6839fc0c879be27c2a0a7a141a15b244849b",
+  "file": "SOUZ-SOFTCROP.dll",
+  "size": 4326912,
+  "sha256": "7dee4f7278913876bc74d715c84e4054909bd1037129ef1a702ab6da88507f58",
   "machine": "0x8664",
   "optional_header": "0x20b",
-  "timestamp_raw": 1795011226,
+  "timestamp_raw": 1795011691,
   "certificate_table_present": false,
   "exports": [
     "plugMain"

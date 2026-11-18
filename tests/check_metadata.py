@@ -7,6 +7,7 @@ dll=c.WinDLL(str(Path(sys.argv[1]).resolve()))
 f=dll.plugMain; f.argtypes=[c.c_uint32,c.c_uint64,c.c_void_p]; f.restype=c.c_uint64
 info=c.cast(f(0,0,None),c.POINTER(Info)).contents
 assert (info.major,info.minor,info.id)==(2,1,b'SZC4')
+assert info.name==b'SOUZ-SOFTCROP'
 assert f(34,0,None)==0
 try:
  assert f(4,0,None)==5
