@@ -1,4 +1,4 @@
-# Souz Toolkit — SoftCrop 1.2
+# Souz Toolkit — SoftCrop 1.3
 
 ![Souz SoftCrop](assets/SoftCrop-thumbnail.png)
 
@@ -6,26 +6,28 @@ Plugin original para Resolume, Windows x64 e FFGL 2.1. Recorte simétrico com su
 
 ## Baixar a versão atual
 
-- [DLL v1.2 — download direto](https://github.com/oSouz/SoftCrop/raw/refs/heads/main/dist/SouzSoftCrop_v12_FFGL21.dll)
-- [Pacote completo v1.2](https://github.com/oSouz/SoftCrop/raw/refs/heads/main/SouzToolkit_SoftCrop_FFGL21_v1.2.zip)
+- [DLL v1.3 — download direto](https://github.com/oSouz/SoftCrop/raw/refs/heads/main/dist/SouzSoftCrop_v13_FFGL21.dll)
+- [Pacote completo v1.3](https://github.com/oSouz/SoftCrop/raw/refs/heads/main/SouzToolkit_SoftCrop_FFGL21_v1.3.zip)
 
 ## Instalar esta atualização
 
 1. Feche o Resolume.
-2. Copie `dist/SouzSoftCrop_v12_FFGL21.dll` para uma pasta que esteja configurada nos diretórios de plugins FFGL do Resolume.
-3. Abra o Resolume e procure o efeito **Souz SoftCrop 12**. Esse é o nome da nova versão. O efeito antigo **Souz Soft Crop** pode continuar em composições anteriores.
-4. Retire o efeito antigo do clipe e aplique **Souz SoftCrop 12**. Substituir um arquivo não troca automaticamente uma instância de efeito numa composição.
+2. Copie `dist/SouzSoftCrop_v13_FFGL21.dll` para uma pasta que esteja configurada nos diretórios de plugins FFGL do Resolume.
+3. Abra o Resolume e procure o efeito **Souz SoftCrop 13**. Esse é o nome da nova versão. O efeito antigo **Souz Soft Crop** pode continuar em composições anteriores.
+4. Retire o efeito antigo do clipe e aplique **Souz SoftCrop 13**. Substituir um arquivo não troca automaticamente uma instância de efeito numa composição.
 5. Confirme os dois controles **Crop Horizontal** e **Crop Vertical** e a thumbnail Souz/SoftCrop.
 
-A DLL nova tem nome de arquivo e ID próprios (`SZC2`) para distingui-la das versões anteriores (`SZC1`). Os presets/instâncias antigos não migram automaticamente. Não instale as duas DLLs de `dist` juntas: o nome sem v12 é apenas um alias com os mesmos bytes para manter o link antigo atualizado. Use a DLL com v12.
+A DLL nova tem nome de arquivo e ID próprios (`SZC3`) para distingui-la das versões anteriores (`SZC1`). Os presets/instâncias antigos não migram automaticamente. Não instale as duas DLLs de `dist` juntas: o nome sem v12 é apenas um alias com os mesmos bytes para manter o link antigo atualizado. Use a DLL com v12.
 
 Se o efeito novo não aparecer, confirme o diretório FFGL nas preferências de vídeo e reinicie o Resolume. A thumbnail do efeito usa a imagem Souz enviada pelo usuário, com SoftCrop abaixo; a imagem de um slot de clipe depende do comportamento do host. A marca não aparece sobre o vídeo processado.
 
-## Repasse com thumbnail pronta no clipe
+## Thumbnail embutida — comparação com GridPanel
 
-[Baixe o pacote de repasse](https://github.com/oSouz/SoftCrop/raw/refs/heads/main/Souz_SoftCrop_Repasse_v1.2.zip). Ele inclui a DLL e uma composição `Souz_SoftCrop_Pronto.avc` com o clipe de efeito e a imagem embutida. Instale a DLL e abra essa composição, ou importe seu deck em outra composição. Não depende do PNG no computador de origem.
+Na versão 1.3, a implementação foi alinhada ao código do GridPanel do usuário: imagem de 640×360, pixels CFFGLColor no formato numérico 0xRRGGBBAA e registro estático CFFGLThumbnailInfo. A versão 1.2 usava 160×120 e palavras no formato numérico 0xAABBGGRR; essa diferença foi corrigida. A imagem completa está dentro da DLL: não depende de PNG ou arquivo AVC no computador de quem recebe.
 
-A DLL sozinha não define a thumbnail de um clipe novo: o FFGL oferece a thumbnail do plugin, mas a imagem do clipe é gerenciada pelo Resolume. O pacote resolve a distribuição de um clipe já configurado. O arquivo AVC foi verificado estruturalmente e sua thumbnail LZF foi validada; sua abertura no Resolume ainda precisa de teste. Leia `distribution/LEIA-ME.txt`.
+Os testes consultam a API e verificam cada palavra de pixel, incluindo alfa. Isso confirma o conteúdo entregue pelo plugin, mas não comprova como o Resolume o usa no slot do clipe. A verificação visual no host permanece pendente. Não há garantia de que o host substitua uma thumbnail já salva numa composição antiga; para testar esta versão, use uma instância nova de **Souz SoftCrop 13**.
+
+O pacote experimental de composição da versão 1.2 fica como histórico e não é necessário para esta implementação de thumbnail embutida.
 
 ## Controles
 
@@ -51,10 +53,10 @@ Windows x64, Visual Studio 2022/Build Tools com Desenvolvimento para desktop com
 cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 cmake --build build --config Release --parallel 4
 ctest --test-dir build -C Release --output-on-failure
-python tests/check_metadata.py build/bin/Release/SouzSoftCrop_v12_FFGL21.dll
+python tests/check_metadata.py build/bin/Release/SouzSoftCrop_v13_FFGL21.dll
 ```
 
-Saída: `build/bin/Release/SouzSoftCrop_v12_FFGL21.dll`.
+Saída: `build/bin/Release/SouzSoftCrop_v13_FFGL21.dll`.
 
 O SDK público incluído está fixado em [resolume/ffgl v2.1](https://github.com/resolume/ffgl/tree/v2.1), commit `6697342f153cba9df9fd089a56d29ca87712fe30`. Pode usar outro checkout dessa versão com `-DFFGL_SDK="C:/caminho/ffgl"`. Para obter o SDK quando não estiver incluído:
 
@@ -66,7 +68,7 @@ A thumbnail já está embutida em `src/SouzThumbnail.h`. Para recriá-la no Wind
 
 ## Validação e limites
 
-Build Release MSVC 19.44, SDK Windows 10.0.26100. Testes aprovados de parâmetros, retorno a zero, eixos independentes, suavizações independentes, limites e entrada inválida. API consultada: FFGL 2.1, nome Souz SoftCrop 12, ID SZC2 e sete parâmetros. Thumbnail consultada pela API e comparada pixel a pixel com o cabeçalho embutido.
+Build Release MSVC 19.44, SDK Windows 10.0.26100. Testes aprovados de parâmetros, retorno a zero, eixos independentes, suavizações independentes, limites e entrada inválida. API consultada: FFGL 2.1, nome Souz SoftCrop 13, ID SZC3 e sete parâmetros. Thumbnail consultada pela API e comparada pixel a pixel com o cabeçalho embutido.
 
 Não foi executada uma sessão de Resolume nem validada a renderização em GPU nesta entrega. A inspeção do plugin proprietário foi estática; não há promessa de igualdade pixel a pixel ou de compatibilidade com presets dele. O SDK v2.1 documenta suporte às suas funcionalidades a partir do Resolume 7.0.3. O shader exige OpenGL/GLSL 4.1 e a DLL requer runtime Visual C++ x64.
 

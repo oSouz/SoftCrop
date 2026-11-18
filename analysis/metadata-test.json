@@ -1,7 +1,7 @@
 {
   "api": "2.1",
-  "id": "SZC2",
-  "name": "Souz SoftCrop 12",
+  "id": "SZC3",
+  "name": "Souz SoftCrop 13",
   "parameters": [
     {
       "name": "Crop Horizontal",
@@ -32,6 +32,6 @@
       "default": 0.0
     }
   ],
-  "thumbnail": "160x120; all pixels match embedded image; PASS",
+  "thumbnail": "640x360; all pixels match embedded image; PASS",
   "result": "PASS"
 }

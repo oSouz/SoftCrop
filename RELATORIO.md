@@ -31,7 +31,7 @@ Não foram confirmados por chamadas à API: versão declarada FFGL, ID do plugin
 ## Implementação original proposta
 Souz Soft Crop usa uma entrada e uma máscara retangular calculada no shader. Os cortes secos são simétricos em pares horizontal e vertical, com faixa interna de suavização independente por borda; as quatro máscaras podem ser combinadas por produto ou mínimo e interpoladas pelo controle Corner Blend. A operação atua nos quatro canais e respeita o tamanho útil da textura FFGL.
 
-Nome exibido na versão atual: Souz SoftCrop 12. ID: SZC2. API declarada e consultada: 2.1. Versão do plugin: 1.2. São sete parâmetros: dois cortes por eixo, quatro suavizações e Corner Blend. A identidade foi alterada para distinguir esta versão das instâncias anteriores. Não há compatibilidade de presets com o binário proprietário nem migração automática de instâncias Souz antigas.
+Nome exibido na versão atual: Souz SoftCrop 13. ID: SZC3. API declarada e consultada: 2.1. Versão do plugin: 1.3. São sete parâmetros: dois cortes por eixo, quatro suavizações e Corner Blend. A identidade foi alterada para distinguir esta versão das instâncias anteriores. Não há compatibilidade de presets com o binário proprietário nem migração automática de instâncias Souz antigas.
 
 ## Fontes públicas consultadas
 - SDK oficial, versão fixada: https://github.com/resolume/ffgl/tree/v2.1
@@ -45,3 +45,7 @@ python tools/inspect_pe.py "C:/caminho/SoftCropper_FFGL21.dll"
 ```
 
 O script lê o cabeçalho PE, importações, exportações, hash e uma seleção explícita de strings. Não descompila nem executa o arquivo.
+
+## Comparação com o GridPanel do usuário
+
+A implementação de thumbnail em GridPanel/Thumbnail.h usa CFFGLThumbnailInfo com 640×360 e palavras 0xRRGGBBAA. O plugin é registrado como FF_EFFECT, sem código observado para impor uma thumbnail de clipe. O SoftCrop 1.3 adota essas mesmas dimensões e representação numérica. O SoftCrop 1.2 usava uma representação diferente, 0xAABBGGRR; os testes antigos conferiam essa representação própria, não sua concordância com o GridPanel/SDK. A consulta da API confirma os novos pixels; a exibição no host continua pendente.

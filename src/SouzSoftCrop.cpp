@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include "SouzThumbnail.h"
-static CFFGLThumbnailInfo souzThumbnail(160,120,souzThumbnailPixels);
+static CFFGLThumbnailInfo souzThumbnail(640,360,souzThumbnailPixels);
 
 class SouzSoftCrop final : public CFFGLPlugin {
 public:
@@ -27,8 +27,8 @@ private:
     ffglex::FFGLShader shader;
     ffglex::FFGLScreenQuad quad;
 };
-static CFFGLPluginInfo info(PluginFactory<SouzSoftCrop>,"SZC2","Souz SoftCrop 12",
-  2,1,1,2,FF_EFFECT,"Linked symmetric crop and independent inward feathering",
+static CFFGLPluginInfo info(PluginFactory<SouzSoftCrop>,"SZC3","Souz SoftCrop 13",
+  2,1,1,3,FF_EFFECT,"Linked symmetric crop and independent inward feathering",
   "Souz Toolkit - original implementation");
 static const char* vertex = R"GLSL(#version 410 core
 layout(location=0) in vec4 vPosition;

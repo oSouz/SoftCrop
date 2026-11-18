@@ -1,0 +1,12 @@
+{
+  "reference": "User GridPanel source, Thumbnail.h and GridPanel.cpp",
+  "plugin_type": "FF_EFFECT",
+  "thumbnail_dimensions": [
+    640,
+    360
+  ],
+  "pixel_word_format": "0xRRGGBBAA",
+  "softcrop_previous_word_format": "0xAABBGGRR",
+  "softcrop_current_version": "1.3",
+  "host_visual_test": "pending"
+}
