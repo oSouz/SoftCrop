@@ -1,10 +1,10 @@
 {
-  "file": "SouzSoftCrop_v13_FFGL21.dll",
+  "file": "SouzSoftCrop_v14_FFGL21.dll",
   "size": 4327424,
-  "sha256": "6bbf150428506758c5cff791448b297b094b5f7e8b43a8197befe17586dd0d7c",
+  "sha256": "f3adef6ecc339944e3e6cdb891be6839fc0c879be27c2a0a7a141a15b244849b",
   "machine": "0x8664",
   "optional_header": "0x20b",
-  "timestamp_raw": 1795010055,
+  "timestamp_raw": 1795011226,
   "certificate_table_present": false,
   "exports": [
     "plugMain"
@@ -22,10 +22,5 @@
     "api-ms-win-crt-convert-l1-1-0.dll",
     "api-ms-win-crt-heap-l1-1-0.dll"
   ],
-  "selected_exact_strings": [
-    "Soft Left",
-    "Soft Top",
-    "Soft Right",
-    "Soft Bottom"
-  ]
+  "selected_exact_strings": []
 }

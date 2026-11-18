@@ -10,25 +10,25 @@ public:
     SouzSoftCrop() {
         SetMinInputs(1); SetMaxInputs(1);
         const char* names[] = {"Crop Horizontal", "Crop Vertical",
-          "Soft Left", "Soft Top", "Soft Right", "Soft Bottom", "Corner Blend"};
-        for(unsigned i=0;i<7;++i) SetParamInfo(i,names[i],FF_TYPE_STANDARD,0.0f);
+          "Soft Horizontal", "Soft Vertical", "Corner Blend"};
+        for(unsigned i=0;i<5;++i) SetParamInfo(i,names[i],FF_TYPE_STANDARD,0.0f);
     }
     FFResult SetFloatParameter(unsigned i,float v) override {
-        if(i>=7 || !std::isfinite(v)) return FF_FAIL;
+        if(i>=5 || !std::isfinite(v)) return FF_FAIL;
         values[i]=std::clamp(v,0.0f,1.0f);
         return FF_SUCCESS;
     }
-    float GetFloatParameter(unsigned i) override { return i<7 ? values[i] : 0.0f; }
+    float GetFloatParameter(unsigned i) override { return i<5 ? values[i] : 0.0f; }
     FFResult InitGL(const FFGLViewportStruct* vp) override;
     FFResult DeInitGL() override { quad.Release(); shader.FreeGLResources(); return FF_SUCCESS; }
     FFResult ProcessOpenGL(ProcessOpenGLStruct* p) override;
 private:
-    float values[7]{};
+    float values[5]{};
     ffglex::FFGLShader shader;
     ffglex::FFGLScreenQuad quad;
 };
-static CFFGLPluginInfo info(PluginFactory<SouzSoftCrop>,"SZC3","Souz SoftCrop 13",
-  2,1,1,3,FF_EFFECT,"Linked symmetric crop and independent inward feathering",
+static CFFGLPluginInfo info(PluginFactory<SouzSoftCrop>,"SZC4","Souz SoftCrop 14",
+  2,1,1,4,FF_EFFECT,"Symmetric horizontal and vertical crop and feathering",
   "Souz Toolkit - original implementation");
 static const char* vertex = R"GLSL(#version 410 core
 layout(location=0) in vec4 vPosition;
@@ -75,6 +75,6 @@ FFResult SouzSoftCrop::ProcessOpenGL(ProcessOpenGLStruct* p){
     const auto max=GetMaxGLTexCoords(*p->inputTextures[0]);
     shader.Set("image",0); shader.Set("maxUV",max.s,max.t);
     shader.Set("crop",values[0],values[1],values[0],values[1]);
-    shader.Set("feather",values[2],values[3],values[4],values[5]);
-    shader.Set("cornerBlend",values[6]); quad.Draw(); return FF_SUCCESS;
+    shader.Set("feather",values[2],values[3],values[2],values[3]);
+    shader.Set("cornerBlend",values[4]); quad.Draw(); return FF_SUCCESS;
 }

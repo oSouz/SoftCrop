@@ -29,9 +29,9 @@ Há evidência forte de um efeito de recorte por quatro lados, com suavização 
 Não foram confirmados por chamadas à API: versão declarada FFGL, ID do plugin, quantidade/ordem efetiva dos parâmetros, tipos, intervalos, valores padrão ou opções de Style. O sufixo FFGL21 é compatível com a intenção de FFGL 2.1, mas o nome do arquivo não prova a versão da API. `Multiply` pode ser uma opção ou rótulo; não permite inferir o conjunto de modos nem a fórmula usada. Nenhuma equivalência pixel a pixel é reivindicada.
 
 ## Implementação original proposta
-Souz Soft Crop usa uma entrada e uma máscara retangular calculada no shader. Os cortes secos são simétricos em pares horizontal e vertical, com faixa interna de suavização independente por borda; as quatro máscaras podem ser combinadas por produto ou mínimo e interpoladas pelo controle Corner Blend. A operação atua nos quatro canais e respeita o tamanho útil da textura FFGL.
+Souz Soft Crop usa uma entrada e uma máscara retangular calculada no shader. Os cortes secos são simétricos em pares horizontal e vertical, com faixa interna de suavização simétrica por eixo; as quatro máscaras podem ser combinadas por produto ou mínimo e interpoladas pelo controle Corner Blend. A operação atua nos quatro canais e respeita o tamanho útil da textura FFGL.
 
-Nome exibido na versão atual: Souz SoftCrop 13. ID: SZC3. API declarada e consultada: 2.1. Versão do plugin: 1.3. São sete parâmetros: dois cortes por eixo, quatro suavizações e Corner Blend. A identidade foi alterada para distinguir esta versão das instâncias anteriores. Não há compatibilidade de presets com o binário proprietário nem migração automática de instâncias Souz antigas.
+Nome exibido na versão atual: Souz SoftCrop 14. ID: SZC4. API declarada e consultada: 2.1. Versão do plugin: 1.4. São cinco parâmetros: dois cortes por eixo, duas suavizações por eixo e Corner Blend. A identidade foi alterada para distinguir esta versão das instâncias anteriores. Não há compatibilidade de presets com o binário proprietário nem migração automática de instâncias Souz antigas.
 
 ## Fontes públicas consultadas
 - SDK oficial, versão fixada: https://github.com/resolume/ffgl/tree/v2.1
